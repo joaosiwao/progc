@@ -1,4 +1,5 @@
 #include "Fila.h"
+#include "Aluno.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -40,7 +41,8 @@ int fila_libera(Fila **fila) {
  * adicionado) e -1 caso a fila ou aluno sejam NULL
  */
 int fila_insere(Fila *fila, Aluno *aluno) {
-  return -10;
+    /*if()
+  return -1;*/
 }
 
 /* Remove um aluno na fila. Retorna o aluno ou NULL caso a fila esteja vazia ou
@@ -51,16 +53,15 @@ Aluno *fila_retira(Fila *fila) {
         return NULL;
     }
 
-    Aluno *aluno = (&(fila->fila_alunos))[0];
+    /*Aluno *aluno = (&(fila->fila_alunos))[0];
 
-    /*For para remover o aluno na fila*/
+    /*For para remover o aluno na fila
     for(int i = 1; i < fila->tamanho; i++){
         (&(fila->fila_alunos))[i-1] = (&(fila->fila_alunos))[i];
     }
-    /*Atribui NULL ao último "Aluno" da fila(?)*/
+    /*Atribui NULL ao último "Aluno" da fila(?)
     (&(fila->fila_alunos))[fila->tamanho - 1] = NULL;
-    return aluno;
-
+    return aluno;*/
 }
 
 /* Recupera o primeiro aluno da fila. Retorna o aluno ou NULL caso a fila esteja
@@ -76,7 +77,7 @@ Aluno *fila_primeiro(Fila *fila) {
  * lista e NULL caso contrário, isto é, (i) fila vazia; (ii) não exista aluno
  * com a matricula fornecida; ou (iii) a fila seja NULL */
 Aluno *fila_busca(Fila *fila, int matricula) {
-    if(fila == NULL || fila->tamanho == 0) {
+    if(fila == NULL || fila->tamanho == 0){
         return NULL;
     }
 }

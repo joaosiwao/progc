@@ -10,7 +10,7 @@ typedef struct aluno Aluno;
         int matricula;
         char nome[50];
         char curso[30];
-    }
+    };
 /* Aloca e retorna um aluno com os dados passados por parâmetro. Porém, para os
  * casos em que (i) pelo menos um dos parâmetros sejam nulos <-1, NULL, NULL>; e
  * (ii) o tamanho das strings nome e curso sejam maiores que os da especificação
@@ -18,32 +18,28 @@ typedef struct aluno Aluno;
 
 Aluno *alu_novo(int matricula, char *nome, char *curso){
     /*Testa caso (I)*/
-    if(matricula == -1 || nome == NULL || curso == NULL){
+    if(matricula < 0 || nome == NULL || curso == NULL){
         return NULL;
     }
-
-    /*Operações para dar o tamanho de nome e curso*/
-    int nome_length = sizeof(nome)/sizeof(char);
-    int curso_length = sizeof(curso)/sizeof(char);
-
     /*Testa caso (II)*/
-    if( nome_length > 50 || curso_length > 30){
+    if(strlen(nome) > 50 || strlen(curso) > 30){
         return NULL;
     }
     /*Alocação dinâmica do novo_aluno*/
     Aluno *novo_aluno = (Aluno*) malloc(sizeof(Aluno));
-
     novo_aluno->matricula = matricula;
-    novo_aluno->nome = nome;
-    novo_aluno->curso = curso;
+    strcpy(novo_aluno->nome, nome);
+    strcpy(novo_aluno->curso, curso);
 
     return novo_aluno;
 }
 
 /* Libera a memória de um aluno previamente criado e atribui NULL ao aluno. */
 void alu_libera(Aluno **aluno){
-    free(aluno);
-    aluno = NULL;
+    if (aluno != NULL) {
+        free(*aluno);
+        *aluno = NULL;
+    }
 }
 
 
@@ -52,14 +48,15 @@ void alu_libera(Aluno **aluno){
 void alu_acessa(Aluno *aluno, int *matricula, char *nome, char *curso){
     if(aluno ==  NULL){
         *matricula = -1;
-        *nome = NULL;
-        *curso = NULL;
+        /*strcpy() para manipular string*/
+        strcpy(nome, "NULL");
+        strcpy(curso, "NULL");
         return;
     }
     /*Isto me informa que aluno não está NULL, então copia as informações do Aluno.*/
     *matricula = aluno->matricula;
-    *nome = aluno->nome;
-    *curso = aluno->curso;
+    strcpy(nome, aluno->nome);
+    strcpy(curso, aluno->curso);
     return;
 }
 
@@ -68,23 +65,19 @@ void alu_acessa(Aluno *aluno, int *matricula, char *nome, char *curso){
  * das strings nome e curso sejam maiores que os da especificação (50 e 30,
  * respectivamente), a função não deve fazer a atribuição. */
 void alu_atribui(Aluno *aluno, int matricula, char *nome, char *curso){
+    if(aluno == NULL){
+        return;
+    }
     if(matricula == -1 || nome == NULL || curso == NULL){
         return;
     }
-
-    /*Operações para dar o tamanho de nome e curso*/
-    /*sizeof */
-    int nome_length = sizeof(nome)/sizeof(char);
-    int curso_length = sizeof(curso)/sizeof(char);
-
-    /*Testa caso (II)*/
-    if(nome_length > 50 || curso_length > 30){
-        return;
+    if(strlen(nome) > 50 || strlen(curso) > 30){
+        return NULL;
     }
 
     aluno->matricula = matricula;
-    aluno->nome = nome;
-    aluno->curso = curso;
+    strcpy(aluno->nome, nome);
+    strcpy(aluno->curso, curso);
     return;
 }
 
@@ -101,14 +94,12 @@ int alu_igual(Aluno *aluno1, Aluno *aluno2) {
         return 0;
     }
     /*Neste ponto eu sei que as matriculas são iguais, do contrário teria retornado no IF a cima*/
-
-    /*VERIFICAR A PARTE ABAIXO SE A COMPARAÇÃO DE STRING ESTÁ CORRETA*/
-    if (aluno1->nome != aluno2->nome) {
+    if (strcmp(aluno1->nome, aluno2->nome) != 0){
         return 0;
     }
     /*Neste ponto, eu sei que se não retornou 0, os nomes são iguais.*/
 
-    if (aluno1->curso != aluno2->curso) {
+    if (strcmp(aluno1->curso, aluno2->curso) != 0 ){
         return 0;
     }
     /*Se não retornou 0, todas as informações são iguais.*/
@@ -117,5 +108,5 @@ int alu_igual(Aluno *aluno1, Aluno *aluno2) {
 
 /* Retorna o tamanho em bytes do TAD aluno. */
 int alu_tamanho(){
-    return sizeof(aluno);
+    return sizeof(Aluno);
 }
