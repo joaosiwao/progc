@@ -11,6 +11,10 @@ typedef struct aluno Aluno;
         char nome[50];
         char curso[30];
     };
+
+int pegamatricula(Aluno *aluno){
+    return aluno->matricula;
+}
 /* Aloca e retorna um aluno com os dados passados por parâmetro. Porém, para os
  * casos em que (i) pelo menos um dos parâmetros sejam nulos <-1, NULL, NULL>; e
  * (ii) o tamanho das strings nome e curso sejam maiores que os da especificação

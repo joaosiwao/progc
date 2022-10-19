@@ -1,6 +1,6 @@
 /* TAD: Aluno (matricula, nome, curso) */
 typedef struct aluno Aluno;
-
+int pegamatricula(Aluno *aluno);
 /* Aloca e retorna um aluno com os dados passados por parâmetro. Porém, para os
  * casos em que (i) pelo menos um dos parâmetros sejam nulos <-1, NULL, NULL>; e
  * (ii) o tamanho das strings nome e curso sejam maiores que os da especificação

@@ -41,8 +41,19 @@ int fila_libera(Fila **fila) {
  * adicionado) e -1 caso a fila ou aluno sejam NULL
  */
 int fila_insere(Fila *fila, Aluno *aluno) {
-    /*if()
-  return -1;*/
+    /*IF para verificar se a fila ou aluno é NULL*/
+    if(fila == NULL || aluno == NULL) {
+        return -1;
+    }
+    /*Neste momento eu sei que a fila e aluno não são NULL*/
+    if(fila_busca(fila, pegamatricula(aluno)) != NULL){
+        return 0;
+    }
+    /*Caso a matrícula já exista na fila, o IF é validado e retorna 0*/
+    (&(fila->fila_alunos))[fila->tamanho] = aluno;
+    fila->tamanho = fila->tamanho + 1;
+    return 1;
+    /*Do contrário, o aluno é inserido e retorna 1*/
 }
 
 /* Remove um aluno na fila. Retorna o aluno ou NULL caso a fila esteja vazia ou
@@ -52,16 +63,14 @@ Aluno *fila_retira(Fila *fila) {
     if (fila == NULL || fila->tamanho == 0){
         return NULL;
     }
-
-    /*Aluno *aluno = (&(fila->fila_alunos))[0];
-
-    /*For para remover o aluno na fila
+    Aluno *aluno = (&(fila->fila_alunos))[0];
+    /*For para remover o aluno na fila*/
     for(int i = 1; i < fila->tamanho; i++){
         (&(fila->fila_alunos))[i-1] = (&(fila->fila_alunos))[i];
     }
-    /*Atribui NULL ao último "Aluno" da fila(?)
+    /*Atribui NULL ao último "Aluno" da fila(?)*/
     (&(fila->fila_alunos))[fila->tamanho - 1] = NULL;
-    return aluno;*/
+    return aluno;
 }
 
 /* Recupera o primeiro aluno da fila. Retorna o aluno ou NULL caso a fila esteja
@@ -80,6 +89,13 @@ Aluno *fila_busca(Fila *fila, int matricula) {
     if(fila == NULL || fila->tamanho == 0){
         return NULL;
     }
+    for(int i = 0; i < fila->tamanho; i++){
+        Aluno *aluno = (&(fila->fila_alunos))[i];
+        if (pegamatricula(aluno) == matricula){
+            return aluno;
+        }
+    }
+    return NULL;
 }
 
 /* Verifica se a fila está vazia. Retorna 1 se a fila estiver vazia, 0 caso não
