@@ -28,16 +28,16 @@ int fila_libera(Fila **fila) {
   if (fila != NULL) {
   /*Se fila não for NULL, então:*/
     if ((*fila)->primeiro != NULL) {
-      No *aux = (*fila)->primeiro;
+      No *auxiliar = (*fila)->primeiro;
     /*Se o primeiro da fila não for NULL, armazena o primeiro no Nó auxiliar e então:*/
       do {
-        alu_libera(&aux->aluno);
-        aux = aux->proximo;
+        alu_libera(&auxiliar->aluno);
+        auxiliar = auxiliar->proximo;
       }
       /*Libera a memória do Nó auxiliar e depois atribui o próximo da fila ao auxiliar*/
 
-      while (aux != NULL);
-      /*Fara isso até que aux seja NULL, ou seja toda a fila seja liberada*/
+      while (auxiliar != NULL);
+      /*Fara isso até que auxilar seja NULL, ou seja até toda a fila seja liberada*/
     }
     free(*fila);
     *fila = NULL;
@@ -68,7 +68,7 @@ int fila_insere(Fila *fila, Aluno *aluno) {
 
   Aluno *alu;
   alu = fila_busca(fila, matricula);
-  /*Atribui TAD Aluno ao alu e executa a função fila_busca na fila, especificando as matrículas*/
+  /*Buscar aluno pela matrícula e atribuir a variável alu*/
 
   if (alu != NULL) {
     return 0;
@@ -90,13 +90,13 @@ int fila_insere(Fila *fila, Aluno *aluno) {
   }
   /*Se o primeiro da fila for igual a NULL, então atribui o novo_aluno no primeiro lugar da fila e retorna 1*/
 
-  for (No *auxiliar = fila->primeiro; auxiliar != NULL; auxiliar = auxiliar->proximo) {
-  /**/
+  for (;auxiliar != NULL; auxiliar = auxiliar->proximo) {
+  /*Percorre a lista encadeada enquanto o "próximo" é NULL e adiciona o novo aluno*/
     if (auxiliar->proximo == NULL) {
       auxiliar->proximo = novo_aluno;
       return 1;
     }
-    /**/
+    /*Se próximo é NULL, então insere*/
   }
 }
 
@@ -110,7 +110,7 @@ Aluno *fila_retira(Fila *fila) {
 
   No *primeiro = fila->primeiro;
   No *segundo = primeiro->proximo;
-  /*O nó primeiro, recebe o primeiro da fila e o segundo, recebe o próximo da fila*/
+  /*O nó primeiro, recebe o primeiro da fila e o segundo, recebe o próximo da primeiro*/
 
   fila->primeiro = segundo;
   return primeiro->aluno;
@@ -142,8 +142,8 @@ Aluno *fila_busca(Fila *fila, int matricula) {
   char curso[30];
   /*Declara variáveis locais*/
 
-  for (No *no_auxiliar = fila->primeiro; no_auxiliar != NULL; no_auxiliar = no_auxiliar->proximo) {
-  /**/
+  for (No *no_auxiliar = fila->primeiro; no_auxiliar != NULL; no_auxiliar = no_auxiliar->proximo){
+  /*Percorre a lista encadeada enquanto o próximo é NULL*/
 
     alu_acessa(no_auxiliar->aluno, &matricula_auxiliar, nome, curso);
     /*Usa a função alu_acessa() para armazenar no no_auxiliar os alunos da lista*/
@@ -185,6 +185,10 @@ int fila_quantidade(Fila *fila) {
     return -1;
   }
   /*Se a fila é NULL, retorna -1*/
-    return sizeof(fila);
+  int quantidade = 0;
+  for (No *no_auxiliar = fila->primeiro; no_auxiliar != NULL; no_auxiliar = no_auxiliar->proximo){
+      quantidade ++;
+  }
+  return quantidade;
   /*Do contrário, retorna o tamanho da fila*/
 }
