@@ -25,15 +25,20 @@ Fila *fila_cria() {
  * informada seja NULL. */
 int fila_libera(Fila **fila) {
   if (fila != NULL) {
+  /*Se a fila for diferente de NULL*/
     if ((*fila)->tamanho > 0) {
+    /*Se a fila não está vazia*/
       free((*fila)->fila_alunos);
       (*fila)->fila_alunos = NULL;
+    /*Libera a memória e atribui NULL a fila*/
     }
     free(*fila);
     *fila = NULL;
     return 1;
+    /*Libera memória, atribui NULL a fila e retorna 1*/
   }
   return 0;
+  /*Se a fila for NULL, retorna 0*/
 }
 
 /* Insere um aluno na fila. Retorna 1 se foi possível adicionar, 0 caso já
@@ -78,8 +83,10 @@ Aluno *fila_retira(Fila *fila) {
 Aluno *fila_primeiro(Fila *fila) {
   if (fila == NULL || fila->tamanho == 0) {
     return NULL;
+    /*Se fila vazia ou NULL, retorna NULL*/
   }
   return (&(fila->fila_alunos))[0];
+  /*Do contrario, retorna o aluno na posição 0*/
 }
 
 /* Busca aluno pelo número de matricula. Retorna o aluno se este estiver na
@@ -89,13 +96,19 @@ Aluno *fila_busca(Fila *fila, int matricula) {
     if(fila == NULL || fila->tamanho == 0){
         return NULL;
     }
+    /*Se a fila for NULL ou estiver vazia, retorna NULL*/
+
     for(int i = 0; i < fila->tamanho; i++){
+        /*FOR para percorrer a fila com o seu tamanho de parametro*/
         Aluno *aluno = (&(fila->fila_alunos))[i];
+        /*aluno vai receber as informações do aluno na posição i*/
         if (pegamatricula(aluno) == matricula){
             return aluno;
+        /*Se a matricula estiver presente, retorna esse aluno*/
         }
     }
     return NULL;
+    /*Do contrario, retorna NULL*/
 }
 
 /* Verifica se a fila está vazia. Retorna 1 se a fila estiver vazia, 0 caso não
@@ -105,10 +118,15 @@ int fila_vazia(Fila *fila) {
   if (fila == NULL) {
     return -1;
   }
+  /*Se fila NULL, retorna -1*/
+
   if (fila->tamanho == 0) {
     return 1;
   }
+  /*Se fila vazia, retorna 1*/
+
   return 0;
+  /*Caso nenhum IF seja validado, a fila não está NULL e nem Vazia e retorna 0.*/
 }
 
 /* Computa a quantidade de alunos na fila. Retorna a quantidade de alunos

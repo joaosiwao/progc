@@ -72,17 +72,21 @@ void alu_atribui(Aluno *aluno, int matricula, char *nome, char *curso){
     if(aluno == NULL){
         return;
     }
+    /*Se o aluno é NULL então não faz a atribuição e pula para o próximo IF*/
+
     if(matricula == -1 || nome == NULL || curso == NULL){
         return;
     }
+    /*Se algum dos parâmetros não condiz com o requisito, não faz a atribuição e pula pro próximo IF*/
     if(strlen(nome) > 50 || strlen(curso) > 30){
         return NULL;
     }
-
+    /*Se algum dos parâmetros não condiz com o requisito, não faz a atribuição e pula pro próximo IF*/
     aluno->matricula = matricula;
     strcpy(aluno->nome, nome);
     strcpy(aluno->curso, curso);
     return;
+    /*Caso nenhum dos IF seja validado, a struct aluno vai receber os valores em cada info*/
 }
 
 /* Avalia se dois alunos são iguas. A função deve retornar 1 se os alunos
