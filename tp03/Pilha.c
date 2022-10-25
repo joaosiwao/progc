@@ -48,6 +48,7 @@ int pilha_push(Pilha *pilha, Aluno *aluno) {
   int matricula;
   char nome[50];
   char curso[30];
+
   alu_acessa(aluno, &matricula, nome, curso);
   Aluno *aluno_aux = pilha_busca(pilha, matricula);
   if (aluno_aux != NULL) {
@@ -71,15 +72,9 @@ Aluno *pilha_pop(Pilha *pilha) {
   if (pilha == NULL || pilha->tamanho == 0) {
     return NULL;
   }
-// consertar
-  Aluno *aluno = (&(pilha->pilha_alunos))[pilha->tamanho];
 
-  for (int i = 1; i < pilha->tamanho; i++) {
-    (&(pilha->pilha_alunos))[i - 1] = (&(pilha->pilha_alunos))[i];
-  }
-  pilha->tamanho--;
-  (&(pilha->pilha_alunos))[pilha->tamanho] = NULL;
-
+  Aluno *aluno = (&(pilha->pilha_alunos))[pilha->tamanho-1];
+  (&(pilha->pilha_alunos))[pilha->tamanho--] = NULL;
   return aluno;
 }
 
@@ -89,7 +84,7 @@ Aluno *pilha_top(Pilha *pilha) {
     if (pilha == NULL || pilha->tamanho == 0) {
     return NULL;
   }
-  return (&(pilha->pilha_alunos))[pilha->tamanho];
+  return (&(pilha->pilha_alunos))[pilha->tamanho-1];
 }
 
 /* Busca aluno pelo número de matricula. Retorna o aluno se este estiver na
