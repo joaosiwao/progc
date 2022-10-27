@@ -29,11 +29,11 @@ Pilha *pilha_cria() {
 int pilha_libera(Pilha **pilha) {
   if (pilha != NULL) {
     if ((*pilha)->primeiro != NULL) {
-      No *aux = (*pilha)->primeiro;
+      No *auxiliar = (*pilha)->primeiro;
       do {
-        alu_libera(&aux->aluno);
-        aux = aux->proximo;
-      } while (aux != NULL);
+        alu_libera(&auxiliar->aluno);
+        auxiliar = auxiliar->proximo;
+      } while (auxiliar != NULL);
     }
     free(*pilha);
     *pilha = NULL;
@@ -90,25 +90,28 @@ int pilha_push(Pilha *pilha, Aluno *aluno) {
 /* Remove um aluno na pilha. Retorna o aluno ou NULL caso a pilha esteja vazia
  * ou seja NULL. */
 Aluno *pilha_pop(Pilha *pilha) {
-    if(pilha == NULL){
+    if (pilha == NULL || pilha->primeiro == NULL) {
         return NULL;
     }
-    /*Não funciona assim*/
-    /*No *primeiro = pilha->primeiro;
-    No *segundo = primeiro->proximo;
+    /*Aluno *aluno_backup;
+    aluno_backup = pilha->primeiro->aluno;
 
-    pilha->primeiro = segundo;
-    return primeiro->aluno;*/
+    for(No *auxiliar = pilha->primeiro; auxiliar != NULL; auxiliar = auxiliar->proximo){
+        if(auxiliar->proximo == pilha->primeiro){
+            No *ultimo = auxiliar->proximo;
+            auxiliar->proximo = NULL;
+            pilha->primeiro = auxiliar;
+        }
+    }
+
+    return aluno_backup;*/
 }
-
 /* Recupera o primeiro aluno da pilha. Retorna o aluno ou NULL caso a pilha
  * esteja vazia ou seja NULL. */
 Aluno *pilha_top(Pilha *pilha){
     if(pilha == NULL || pilha->primeiro == NULL){
         return NULL;
     }
-    /*Não funciona assim*/
-    /*return pilha->primeiro->aluno;*/
 }
 
 /* Busca aluno pelo número de matricula. Retorna o aluno se este estiver na
@@ -124,7 +127,8 @@ Aluno *pilha_busca(Pilha *pilha, int matricula) {
     char curso[30];
     /*Declara variáveis locais*/
 
-    for (No *no_auxiliar = pilha->primeiro; no_auxiliar != NULL; no_auxiliar = no_auxiliar->proximo){
+    No *no_auxiliar = pilha->primeiro;
+    for (; no_auxiliar != NULL; no_auxiliar = no_auxiliar->proximo){
         alu_acessa(no_auxiliar->aluno, &matricula_auxiliar, nome, curso);
         if (matricula_auxiliar == matricula) {
             return no_auxiliar->aluno;
